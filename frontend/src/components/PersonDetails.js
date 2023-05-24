@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import './styles.css';
 
@@ -10,8 +9,9 @@ const PersonDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/person/${id}`);
-        setPerson(response.data);
+        const response = await fetch(`http://localhost:8080/person/${id}`);
+        const data = await response.json();
+        setPerson(data);
       } catch (error) {
         console.error(error);
       }

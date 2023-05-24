@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 const CarDetails = () => {
@@ -9,9 +8,9 @@ const CarDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/car/${id}`);
-        setCar(response.data);
-        console.log(response.data);
+        const response = await fetch(`http://localhost:8080/car/${id}`);
+        const data = await response.json();
+        setCar(data);
       } catch (error) {
         console.error(error);
       }
@@ -30,7 +29,7 @@ const CarDetails = () => {
       <p className="car-details__info">Make: {car.make}</p>
       <p className="car-details__info">Color: {car.color}</p>
       <p className="car-details__info">Year: {car.year}</p>
-      <p className='car-details__info'>Owner: {car.person.Name}</p>
+      <p className='car-details__info'>Owner: {car.owner.Name}</p>
     </div>
   );
 };
