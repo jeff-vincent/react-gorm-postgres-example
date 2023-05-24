@@ -1,0 +1,65 @@
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .label {
+    font-weight: bold;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 5px;
+  }
+  
+  .button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #0056b3;
+  }
+
+  .person-details {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .person-name {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .person-id {
+    color: #777;
+  }
+  
+  .car-details {
+    background-color: #f2f2f2;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .car-details__title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .car-details__info {
+    margin-bottom: 5px;
+  }
+  
