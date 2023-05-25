@@ -15,7 +15,7 @@ type Car struct {
 	Make     string
 	Color    string
 	Year     int64
-	Name     string
 	PersonID int
 	Person   Person
+	Image    []byte
 }

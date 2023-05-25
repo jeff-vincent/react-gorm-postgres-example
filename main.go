@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"strconv"
 
 	"gorm-postgres-example/db"
@@ -15,6 +17,30 @@ import (
 
 func createCar(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+
+		file, err := ctx.FormFile("image")
+		fmt.Println(file.Filename)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		// Read the uploaded file
+		fileData, err := file.Open()
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read the file"})
+			return
+		}
+		defer fileData.Close()
+
+		// Read the file content into a byte slice
+		imageBytes, err := ioutil.ReadAll(fileData)
+		fmt.Println(imageBytes)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read the file"})
+			return
+		}
+
 		make := ctx.PostForm("make")
 		color := ctx.PostForm("color")
 		year := ctx.PostForm("year")
@@ -28,7 +54,14 @@ func createCar(db *gorm.DB) gin.HandlerFunc {
 			log.Printf("Failed to convert owner ID: %v", err)
 		}
 
-		c := models.Car{Make: make, Color: color, Year: i, PersonID: oi}
+		c := models.Car{
+			Make:     make,
+			Color:    color,
+			Year:     i,
+			PersonID: oi,
+			Image:    imageBytes,
+		}
+
 		db.Create(&c)
 
 		ctx.JSON(201, gin.H{
@@ -38,6 +71,7 @@ func createCar(db *gorm.DB) gin.HandlerFunc {
 			"id":        c.ID,
 			"person":    c.Person,
 			"person_id": c.PersonID,
+			"image":     c.Image,
 		})
 	}
 }
@@ -54,7 +88,6 @@ func getCarByID(db *gorm.DB) gin.HandlerFunc {
 			})
 			return
 		}
-		fmt.Println(car.Person.Name)
 		ctx.JSON(200, gin.H{
 			"make":      &car.Make,
 			"color":     &car.Color,
@@ -62,6 +95,7 @@ func getCarByID(db *gorm.DB) gin.HandlerFunc {
 			"id":        &car.ID,
 			"person":    &car.Person,
 			"person_id": &car.PersonID,
+			"image":     &car.Image,
 		})
 	}
 }
@@ -123,7 +157,6 @@ func main() {
 	r.GET("/car/:id", getCarByID(db))
 	r.POST("/person", createPerson(db))
 	r.GET("/person/:id", getPersonByID(db))
-
 	if err := r.Run(); err != nil {
 		log.Fatalf("Failed to start the server: %v", err)
 	}

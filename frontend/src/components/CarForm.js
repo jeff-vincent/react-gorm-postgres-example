@@ -5,6 +5,7 @@ const CarForm = () => {
   const [color, setColor] = useState('');
   const [year, setYear] = useState('');
   const [ownerId, setOwnerId] = useState('');
+  const [image, setImage] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,12 +15,14 @@ const CarForm = () => {
       formData.append('color', color);
       formData.append('year', year);
       formData.append('owner_id', ownerId);
-
+      formData.append('image', image);
+  
       const response = await fetch('http://localhost:8080/car', {
         method: 'POST',
+
         body: formData,
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         console.log(data);
@@ -29,6 +32,13 @@ const CarForm = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    console.log(file);
+    console.log(image);
   };
 
   return (
@@ -50,6 +60,10 @@ const CarForm = () => {
         <div className="form-group">
           <label className="label">Owner ID:</label>
           <input className="input" type="text" value={ownerId} onChange={(e) => setOwnerId(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label className="label">Image:</label>
+          <input className="input" type="file" accept="image/*" onChange={handleImageChange} />
         </div>
         <button className="button" type="submit">Submit</button>
       </form>

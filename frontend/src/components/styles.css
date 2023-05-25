@@ -63,3 +63,35 @@
     margin-bottom: 5px;
   }
   
+  .dragging {
+    border: 2px dashed #ccc;
+    background-color: #f9f9f9;
+  }
+  
+
+  .drop-container {
+    width: 200px;
+    height: 200px;
+    border: 2px dashed green;
+    background-color: lightgreen;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .drop-container.dragging {
+    background-color: limegreen;
+  }
+  
+  .top-padding-120 {
+    padding-top: 120%;
+  }
+
+  .top-padding-40 {
+    padding-top: 40%;
+  }
+
+  .spacer-40 {
+    height: 40px;
+  }
