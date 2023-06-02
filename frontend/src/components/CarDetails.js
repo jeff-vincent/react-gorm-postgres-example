@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import "./styles.css";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -34,7 +35,9 @@ const CarDetails = () => {
 
   return (
     <div className="car-details">
-      {imageURL && <img src={imageURL} alt="Car" />}
+      <div className="image-container">
+      {imageURL && <img src={imageURL} alt="Car" className="car-image"/>}
+      </div>
       <h2 className="car-details__title">Car Details</h2>
       <p className="car-details__info">Make: {car.make}</p>
       <p className="car-details__info">Color: {car.color}</p>

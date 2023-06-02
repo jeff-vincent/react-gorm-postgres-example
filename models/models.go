@@ -7,6 +7,7 @@ import (
 type Person struct {
 	ID   int
 	Name string
+	Cars []Car
 }
 
 type Car struct {

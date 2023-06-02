@@ -132,7 +132,7 @@ func getPersonByID(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		p := models.Person{}
 		id := ctx.Param("id")
-		result := db.First(&p, id)
+		result := db.Preload("Cars").First(&p, id)
 		if result.Error != nil {
 			log.Printf("Failed to get person by ID: %v", result.Error)
 			ctx.JSON(500, gin.H{
@@ -143,6 +143,7 @@ func getPersonByID(db *gorm.DB) gin.HandlerFunc {
 		ctx.JSON(200, gin.H{
 			"name": p.Name,
 			"id":   p.ID,
+			"cars": p.Cars,
 		})
 	}
 }

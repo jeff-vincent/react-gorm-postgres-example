@@ -12,6 +12,7 @@ const PersonDetails = () => {
         const response = await fetch(`http://localhost:8080/person/${id}`);
         const data = await response.json();
         setPerson(data);
+        console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -29,6 +30,16 @@ const PersonDetails = () => {
       <h2>Person Details</h2>
       <p className="person-name">Name: {person.name}</p>
       <p className="person-id">ID: {person.id}</p>
+      <div>
+      <p>Cars:</p>
+      <ul>
+        {person.cars.map((car, index) => (
+          <li key={index}>
+            <a href={`http://localhost:3000/car/${car.ID}`}>{car.Make}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
     </div>
   );
 };
