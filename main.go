@@ -148,6 +148,54 @@ func getPersonByID(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+func updateCarByID(db *gorm.DB) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		c := models.Car{}
+		id := ctx.Param("id")
+		color := ctx.PostForm("color")
+
+		r := db.First(&c, id)
+		if r.Error != nil {
+			log.Println(r.Error)
+			ctx.JSON(500, gin.H{
+				"error": "Failed to get car by ID",
+			})
+			return
+		}
+		c.Color = color
+		r = db.Save(&c)
+
+		if r.Error != nil {
+			log.Println(r.Error)
+			ctx.JSON(500, gin.H{
+				"error": "Failed to save update to DB",
+			})
+			return
+		}
+
+		ctx.JSON(200, gin.H{
+			"name":  c.Make,
+			"id":    c.ID,
+			"color": c.Color,
+		})
+	}
+}
+
+func deleteCarByID(db *gorm.DB) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		id := ctx.Param("id")
+		r := db.Delete(&models.Car{}, id)
+		if r.Error != nil {
+			log.Println(r.Error)
+			ctx.JSON(500, gin.H{
+				"error": "Failed to remove record from DB",
+			})
+			return
+		}
+		ctx.JSON(204, nil)
+	}
+}
+
 func main() {
 	r := gin.Default()
 	db := db.InitDB()
@@ -158,6 +206,8 @@ func main() {
 	r.GET("/car/:id", getCarByID(db))
 	r.POST("/person", createPerson(db))
 	r.GET("/person/:id", getPersonByID(db))
+	r.PUT("/car/:id", updateCarByID(db))
+	r.DELETE("/car/:id", deleteCarByID(db))
 	if err := r.Run(); err != nil {
 		log.Fatalf("Failed to start the server: %v", err)
 	}

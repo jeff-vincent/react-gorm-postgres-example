@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import "./styles.css";
 
 const CarDetails = () => {
+  const goAPIHost = process.env.GO_API_HOST
+  const goAPIPort = process.env.GO_API_PORT
   const { id } = useParams();
   const [car, setCar] = useState(null);
   const [imageURL, setImageURL] = useState('');
@@ -10,7 +12,7 @@ const CarDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/car/${id}`);
+        const response = await fetch(`http://${goAPIHost}:${goAPIPort}/car/${id}`);
         const data = await response.json();
         console.log(data);
         setCar(data);

@@ -3,13 +3,15 @@ import { useParams } from 'react-router-dom';
 import './styles.css';
 
 const PersonDetails = () => {
+  const goAPIHost = process.env.GO_API_HOST
+  const goAPIPort = process.env.GO_API_PORT
   const { id } = useParams();
   const [person, setPerson] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/person/${id}`);
+        const response = await fetch(`http://${goAPIHost}:${goAPIPort}/person/${id}`);
         const data = await response.json();
         setPerson(data);
         console.log(data);
@@ -35,7 +37,7 @@ const PersonDetails = () => {
       <ul>
         {person.cars.map((car, index) => (
           <li key={index}>
-            <a href={`http://localhost:3000/car/${car.ID}`}>{car.Make}</a>
+            <a href={`http://${goAPIHost}:${goAPIPort}/car/${car.ID}`}>{car.Make}</a>
           </li>
         ))}
       </ul>

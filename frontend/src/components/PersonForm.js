@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './styles.css';
 
 const PersonForm = () => {
+  const goAPIHost = process.env.GO_API_HOST
+  const goAPIPort = process.env.GO_API_PORT
   const [name, setName] = useState('');
 
   const handleSubmit = (e) => {
@@ -10,7 +12,7 @@ const PersonForm = () => {
     const formData = new FormData();
     formData.append('name', name);
 
-    fetch('http://localhost:8080/person', {
+    fetch(`http://${goAPIHost}:${goAPIPort}/person`, {
       method: 'POST',
       body: formData
     })
