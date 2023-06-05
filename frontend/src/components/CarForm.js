@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 const CarForm = () => {
   const [make, setMake] = useState('');
@@ -6,6 +7,14 @@ const CarForm = () => {
   const [year, setYear] = useState('');
   const [ownerId, setOwnerId] = useState('');
   const [image, setImage] = useState(null);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (id) {
+      setOwnerId(id);
+    }
+  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +33,7 @@ const CarForm = () => {
       });
   
       if (response.ok) {
+        window.location.reload();
         const data = await response.json();
         console.log(data);
       } else {
@@ -57,10 +67,12 @@ const CarForm = () => {
           <label className="label">Year:</label>
           <input className="input" type="number" value={year} onChange={(e) => setYear(e.target.value)} />
         </div>
+        {!id && (
         <div className="form-group">
           <label className="label">Owner ID:</label>
           <input className="input" type="text" value={ownerId} onChange={(e) => setOwnerId(e.target.value)} />
         </div>
+      )}
         <div className="form-group">
           <label className="label">Image:</label>
           <input className="input" type="file" accept="image/*" onChange={handleImageChange} />

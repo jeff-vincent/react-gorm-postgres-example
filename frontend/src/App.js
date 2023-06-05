@@ -14,8 +14,8 @@ const App = () => {
         <Routes>
           <Route exact path="car" element={<CarForm/>} />
           <Route exact path="/car/:id" element={<CarDetails/>} />
-          <Route exact path="/person" element={<PersonForm/>} />
-          <Route exact path="/person/:id" element={<PersonDetails/>} />
+          <Route exact path="/" element={<PersonForm/>} />
+          <Route exact path="/person/:id" element={[<PersonDetails/>, <CarForm/>]} />
         </Routes>
       </div>
     </Router>

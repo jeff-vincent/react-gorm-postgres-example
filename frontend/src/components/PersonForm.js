@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './styles.css';
 
 const PersonForm = () => {
   const [name, setName] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append('name', name);
-
-    console.log('http://127.0.0.1/api/person')
 
     fetch(`http://127.0.0.1/api/person`, {
       method: 'POST',
@@ -20,6 +20,8 @@ const PersonForm = () => {
       .then((data) => {
         // Handle the response from the server
         console.log(data);
+        // Redirect to the person details page
+        navigate(`/person/${data.id}`);
       })
       .catch((error) => {
         // Handle any errors
