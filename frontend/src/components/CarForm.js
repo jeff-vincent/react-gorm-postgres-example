@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 
 const CarForm = () => {
-  const goAPIHost = process.env.GO_API_HOST
-  const goAPIPort = process.env.GO_API_PORT
   const [make, setMake] = useState('');
   const [color, setColor] = useState('');
   const [year, setYear] = useState('');
@@ -19,7 +17,7 @@ const CarForm = () => {
       formData.append('owner_id', ownerId);
       formData.append('image', image);
   
-      const response = await fetch(`http://${goAPIHost}:${goAPIPort}/car`, {
+      const response = await fetch(`http://127.0.0.1/api/car`, {
         method: 'POST',
 
         body: formData,

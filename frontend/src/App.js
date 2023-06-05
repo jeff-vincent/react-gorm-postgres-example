@@ -6,8 +6,6 @@ import PersonDetails from './components/PersonDetails';
 import CarForm from './components/CarForm';
 
 const App = () => {
-  const goAPIHost = process.env.GO_API_HOST
-  const goAPIPort = process.env.GO_API_PORT
   
   return (
     <Router>

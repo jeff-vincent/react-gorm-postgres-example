@@ -1,23 +1,17 @@
-# Use an official Node.js runtime as the base image
-FROM node:14-alpine
+# Use an official Nginx image as the base
+FROM nginx:alpine
 
-# Set the working directory in the container
-WORKDIR /app
+# Remove default Nginx configuration
+RUN rm -rf /etc/nginx/conf.d
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Install app dependencies
-RUN npm install
-
-# Copy the entire app to the working directory
-COPY . .
-
-# Build the app
-RUN npm run build
+# Copy the built React app from the local machine to the container
+COPY build /usr/share/nginx/html
 
 # Expose a port for the container
-EXPOSE 3000
+EXPOSE 80
 
-# Start the app
-CMD ["npm", "start"]
+# Start the Nginx web server
+CMD ["nginx", "-g", "daemon off;"]

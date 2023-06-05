@@ -202,12 +202,12 @@ func main() {
 
 	r.Use(cors.Default())
 
-	r.POST("/car", createCar(db))
-	r.GET("/car/:id", getCarByID(db))
-	r.POST("/person", createPerson(db))
-	r.GET("/person/:id", getPersonByID(db))
-	r.PUT("/car/:id", updateCarByID(db))
-	r.DELETE("/car/:id", deleteCarByID(db))
+	r.POST("/api/car", createCar(db))
+	r.GET("/api/car/:id", getCarByID(db))
+	r.POST("/api/person", createPerson(db))
+	r.GET("/api/person/:id", getPersonByID(db))
+	r.PUT("/api/car/:id", updateCarByID(db))
+	r.DELETE("/api/car/:id", deleteCarByID(db))
 	if err := r.Run(); err != nil {
 		log.Fatalf("Failed to start the server: %v", err)
 	}
